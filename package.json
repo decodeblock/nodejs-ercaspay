@@ -1,0 +1,32 @@
+{
+  "name": "@decodeblock/nodejs-ercaspay",
+  "version": "0.0.1",
+  "description": "A Node.js package for seamless integration with the Ercaspay payment gateway API.",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/decodeblock/nodejs-ercaspay.git"
+  },
+  "keywords": [
+    "Decodeblock",
+    "Ercaspay",
+    "payment",
+    "nodejs-ercaspay"
+  ],
+  "author": "Gabriel Ibenye",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/decodeblock/nodejs-ercaspay/issues"
+  },
+  "homepage": "https://github.com/decodeblock/nodejs-ercaspay#readme",
+  "dependencies": {
+    "axios": "^1.7.9"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^7.0.0"
+  }
+}
