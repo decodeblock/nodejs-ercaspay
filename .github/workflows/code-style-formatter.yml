@@ -1,0 +1,29 @@
+name: Code formatting with Prettier
+
+on:
+  push:
+    paths:
+      - '**/*.js'
+
+permissions:
+  contents: write
+
+jobs:
+  node-code-styling:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install npm dependencies
+        uses: bahmutov/npm-install@v1
+
+      - name: Run Prettier to format code
+        run: npm run format
+
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Fix code styling using Prettier"
