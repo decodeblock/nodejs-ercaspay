@@ -76,7 +76,6 @@ class ErcasPay {
     this.logger.debug('Making API request', {
       url: relativeUrl,
       method,
-      data,
     });
 
     if (!method) {
@@ -97,6 +96,8 @@ class ErcasPay {
         throw new Error(
           error.response.data.errorMessage ||
             `An error occurred while calling the Ercaspay API on path: ${relativeUrl}`,
+          error.response.status,
+          error.response.data,
         );
       }
 
@@ -273,7 +274,7 @@ class ErcasPay {
       payload: encryptedCard,
       deviceDetails,
     });
-    this.logger.debug('Card transaction initiated successfully', { response });
+    this.logger.debug('Card transaction initiated successfully', { transactionRef });
     return response;
   }
 
