@@ -17,7 +17,7 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest]
         node: [20,23]  # Specify Node.js versions to test
-        npm: [10]      # Specify npm versions to test
+        npm: [9,10]      # Specify npm versions to test
     name: Test Node.js${{ matrix.node }} and npm${{ matrix.npm }} on ${{ matrix.os }}
 
     steps:
