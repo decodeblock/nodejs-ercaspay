@@ -19,7 +19,7 @@ class ErcasPay {
     this.logger =
       logger ||
       winston.createLogger({
-        level: 'debug', // Default log level
+        level: 'info', // Default log level
         format: winston.format.combine(
           winston.format.timestamp(),
           winston.format.printf(({ timestamp, level, message, ...metadata }) => {
