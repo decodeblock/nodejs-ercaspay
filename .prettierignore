@@ -1,5 +1,35 @@
-# Ignore artifacts:
+# Dependencies
+node_modules
+package-lock.json
+yarn.lock
+
+# Build outputs
+dist
 build
 coverage
-README.md
-LICENSE
+
+# Common file types to ignore
+*.min.js
+*.bundle.js
+*.map
+*.html
+*.md
+*.yaml
+*.yml
+*.json
+
+# Specific directories
+public/
+assets/
+
+# Log files
+*.log
+
+# Cache directories
+.cache
+.next
+.nuxt
+.vuepress/dist
+
+# Environment files
+.env*
