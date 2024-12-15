@@ -255,7 +255,7 @@ class ErcasPay {
     cardCvv,
     pin,
   }) {
-    this.logger.debug("Initiating card transaction", {
+    this.logger.debug('Initiating card transaction', {
       transactionRef,
     });
 
