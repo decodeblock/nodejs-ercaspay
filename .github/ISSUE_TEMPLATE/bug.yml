@@ -1,0 +1,66 @@
+name: Bug Report
+description: Report an Issue or Bug with the Package
+title: "[Bug]: "
+labels: ["bug"]
+body:
+    - type: markdown
+      attributes:
+          value: |
+              We're sorry to hear you encountered an issue. Please help us resolve it by providing the following details.
+    - type: textarea
+      id: what-happened
+      attributes:
+          label: What happened?
+          description: Describe the issue and what you expected to happen.
+          placeholder: I cannot currently do X because when I try, Y happens instead.
+      validations:
+          required: true
+    - type: textarea
+      id: how-to-reproduce
+      attributes:
+          label: How to reproduce the bug
+          description: Please provide a detailed set of steps, including any configuration or input data if relevant.
+          placeholder: 1. Do X, 2. Run Y, 3. Observe Z.
+      validations:
+          required: true
+    - type: input
+      id: package-version
+      attributes:
+          label: Package Version
+          description: Which version of this package are you using? Be specific.
+          placeholder: 1.5.0
+      validations:
+          required: true
+    - type: input
+      id: nodejs-version
+      attributes:
+          label: Node.js Version
+          description: What version of Node.js are you running? Be specific.
+          placeholder: 18.16.0
+      validations:
+          required: true
+    - type: input
+      id: npm-version
+      attributes:
+        label: NPM Version
+        description: What version of npm are you using? Be specific.
+        placeholder: 9.7.0
+      validations:
+        required: true
+    - type: dropdown
+      id: operating-systems
+      attributes:
+        label: Operating System
+        description: Which operating system(s) did this issue occur on? You may select more than one.
+        multiple: true
+        options:
+        - macOS
+        - Windows
+        - Linux
+    - type: textarea
+      id: notes
+      attributes:
+          label: Additional Notes
+          description: Any additional details, logs, or relevant context about the issue.
+      validations:
+          required: false
