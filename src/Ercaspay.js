@@ -44,7 +44,7 @@ class ErcasPay {
    * @private
    */
   #initializeClient() {
-    this.logger.info('Initiallizing axios client', {
+    this.logger.debug('Initiallizing axios client', {
       baseURL: this.baseURL,
       verifySsl: this.verifySsl,
     });
@@ -61,7 +61,7 @@ class ErcasPay {
       },
       httpsAgent, // Attach the agent based on the verifySsl flag
     });
-    this.logger.info('Initiallized axios client successfully');
+    this.logger.debug('Initiallized axios client successfully');
   }
 
   /**
@@ -73,7 +73,7 @@ class ErcasPay {
    * @returns {Promise<Object>} API response data
    */
   async #makeRequest(relativeUrl, method, data = {}) {
-    this.logger.info('Making API request', {
+    this.logger.debug('Making API request', {
       url: relativeUrl,
       method,
       data,
@@ -86,7 +86,7 @@ class ErcasPay {
 
     try {
       const response = await this.client[method.toLowerCase()](relativeUrl, data);
-      this.logger.info('API request successful');
+      this.logger.debug('API request successful');
       return response.data;
     } catch (error) {
       if (error.response) {
@@ -113,10 +113,10 @@ class ErcasPay {
    * @returns {Promise<Object>} Transaction initiation response
    */
   async initiateTransaction(data) {
-    this.logger.info('Initiating payment transaction');
+    this.logger.debug('Initiating payment transaction');
 
     const response = await this.#makeRequest('/api/v1/payment/initiate', 'POST', data);
-    this.logger.info('Payment transaction initiated successfully', {
+    this.logger.debug('Payment transaction initiated successfully', {
       response,
     });
 
@@ -129,9 +129,9 @@ class ErcasPay {
    * @returns {Promise<Object>} Transaction verification response
    */
   async verifyTransaction(transactionRef) {
-    this.logger.info('Verifying transaction', { transactionRef });
+    this.logger.debug('Verifying transaction', { transactionRef });
     const response = await this.#makeRequest(`/api/v1/payment/transaction/verify/${transactionRef}`, 'GET');
-    this.logger.info('Transaction verification completed', { response });
+    this.logger.debug('Transaction verification completed', { response });
     return response;
   }
 
@@ -141,12 +141,12 @@ class ErcasPay {
    * @returns {Promise<Object>} Bank transfer initiation response
    */
   async initiateBankTransfer(transactionRef) {
-    this.logger.info('Initiating bank transfer', { transactionRef });
+    this.logger.debug('Initiating bank transfer', { transactionRef });
     const response = await this.#makeRequest(
       `/api/v1/payment/bank-transfer/request-bank-account/${transactionRef}`,
       'GET',
     );
-    this.logger.info('Bank transfer initiated successfully', { response });
+    this.logger.debug('Bank transfer initiated successfully', { response });
     return response;
   }
 
@@ -157,13 +157,13 @@ class ErcasPay {
    * @returns {Promise<Object>} USSD transaction initiation response
    */
   async initiateUssdTransaction(transactionRef, bankName) {
-    this.logger.info('Initiating USSD transaction', {
+    this.logger.debug('Initiating USSD transaction', {
       transactionRef,
     });
     const response = await this.#makeRequest(`/api/v1/payment/ussd/request-ussd-code/${transactionRef}`, 'POST', {
       bank_name: bankName,
     });
-    this.logger.info('USSD transaction initiated successfully', { response });
+    this.logger.debug('USSD transaction initiated successfully', { response });
     return response;
   }
 
@@ -172,7 +172,7 @@ class ErcasPay {
    * @returns {Promise<Object>} List of supported banks
    */
   async getBankListForUssd() {
-    this.logger.info('Fetching USSD supported banks list');
+    this.logger.debug('Fetching USSD supported banks list');
     const response = await this.#makeRequest('/api/v1/payment/ussd/supported-banks', 'GET');
     this.logger.debug('Retrieved USSD supported banks', {
       banks: response.responseBody,
@@ -186,7 +186,7 @@ class ErcasPay {
    */
   generatePaymentReferenceUuid() {
     const uuid = require('crypto').randomUUID();
-    this.logger.info('Generated payment reference UUID', { uuid });
+    this.logger.debug('Generated payment reference UUID', { uuid });
     return uuid;
   }
 
@@ -196,9 +196,9 @@ class ErcasPay {
    * @returns {Promise<Object>} Transaction details
    */
   async fetchTransactionDetails(transactionRef) {
-    this.logger.info('Fetching transaction details', { transactionRef });
+    this.logger.debug('Fetching transaction details', { transactionRef });
     const response = await this.#makeRequest(`/api/v1/payment/details/${transactionRef}`, 'GET');
-    this.logger.info('Transaction details retrieved', { response });
+    this.logger.debug('Transaction details retrieved', { response });
     return response;
   }
 
@@ -210,14 +210,14 @@ class ErcasPay {
    * @returns {Promise<Object>} Transaction status
    */
   async fetchTransactionStatus(transactionRef, paymentReference, paymentMethod) {
-    this.logger.info('Fetching transaction status', {
+    this.logger.debug('Fetching transaction status', {
       transactionRef,
     });
     const response = await this.#makeRequest(`/api/v1/payment/status/${transactionRef}`, 'POST', {
       payment_method: paymentMethod,
       reference: paymentReference,
     });
-    this.logger.info('Transaction status retrieved', { response });
+    this.logger.debug('Transaction status retrieved', { response });
     return response;
   }
 
@@ -227,9 +227,9 @@ class ErcasPay {
    * @returns {Promise<Object>} Cancellation response
    */
   async cancelTransaction(transactionRef) {
-    this.logger.info('Cancelling transaction', { transactionRef });
+    this.logger.debug('Cancelling transaction', { transactionRef });
     const response = await this.#makeRequest(`/api/v1/payment/cancel/${transactionRef}`, 'GET');
-    this.logger.info('Transaction cancelled successfully', { response });
+    this.logger.debug('Transaction cancelled successfully', { response });
     return response;
   }
 
@@ -254,7 +254,7 @@ class ErcasPay {
     cardCvv,
     pin,
   }) {
-    this.logger.info('Initiating card transaction', {
+    this.logger.debug('Initiating card transaction', {
       transactionRef,
     });
 
@@ -273,7 +273,7 @@ class ErcasPay {
       payload: encryptedCard,
       deviceDetails,
     });
-    this.logger.info('Card transaction initiated successfully', { response });
+    this.logger.debug('Card transaction initiated successfully', { response });
     return response;
   }
 
@@ -285,14 +285,14 @@ class ErcasPay {
    * @returns {Promise<Object>} OTP submission response
    */
   async submitCardOTP(transactionRef, paymentReference, otp) {
-    this.logger.info('Submitting card OTP', {
+    this.logger.debug('Submitting card OTP', {
       transactionRef,
     });
     const response = await this.#makeRequest(`/api/v1/payment/cards/otp/submit/${transactionRef}`, 'POST', {
       otp,
       gatewayReference: paymentReference,
     });
-    this.logger.info('OTP submission completed', { response });
+    this.logger.debug('OTP submission completed', { response });
     return response;
   }
 
@@ -303,13 +303,13 @@ class ErcasPay {
    * @returns {Promise<Object>} OTP resend response
    */
   async resendCardOTP(transactionRef, paymentReference) {
-    this.logger.info('Requesting OTP resend', {
+    this.logger.debug('Requesting OTP resend', {
       transactionRef,
     });
     const response = await this.#makeRequest(`/api/v1/payment/cards/otp/resend/${transactionRef}`, 'POST', {
       gatewayReference: paymentReference,
     });
-    this.logger.info('OTP resend completed', { response });
+    this.logger.debug('OTP resend completed', { response });
     return response;
   }
 
@@ -319,9 +319,9 @@ class ErcasPay {
    * @returns {Promise<Object>} Card details
    */
   async getCardDetails(transactionRef) {
-    this.logger.info('Fetching saved card details', { transactionRef });
+    this.logger.debug('Fetching saved card details', { transactionRef });
     const response = await this.#makeRequest(`/api/v1/payment/cards/details/${transactionRef}`, 'GET');
-    this.logger.info('Card details retrieved successfully', { response });
+    this.logger.debug('Card details retrieved successfully', { response });
     return response;
   }
 
@@ -331,11 +331,11 @@ class ErcasPay {
    * @returns {Promise<Object>} Transaction verification response
    */
   async verifyCardTransaction(transactionRef) {
-    this.logger.info('Verifying card transaction', { transactionRef });
+    this.logger.debug('Verifying card transaction', { transactionRef });
     const response = await this.#makeRequest('/api/v1/payment/cards/transaction/verify', 'POST', {
       reference: transactionRef,
     });
-    this.logger.info('Transaction verification completed', { response });
+    this.logger.debug('Transaction verification completed', { response });
     return response;
   }
 }
