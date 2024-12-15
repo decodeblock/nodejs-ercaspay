@@ -1,7 +1,7 @@
-const BrowserDetails = require("./BrowserDetails");
+const BrowserDetails = require('./BrowserDetails');
 
 class Device {
-  constructor({browser, browserDetails, ipAddress}) {
+  constructor({ browser, browserDetails, ipAddress }) {
     this.browser = browser;
     this.browserDetails = browserDetails;
     this.ipAddress = ipAddress;
@@ -12,8 +12,8 @@ class Device {
     const userAgent = request.headers['user-agent'] || 'Unknown';
     const ipAddress = request.ip || request.connection.remoteAddress || '127.0.0.1';
     const browserDetails = BrowserDetails.fromRequest(request);
-    
-    return new Device({userAgent, browserDetails, ipAddress});
+
+    return new Device({ userAgent, browserDetails, ipAddress });
   }
 
   toArray() {

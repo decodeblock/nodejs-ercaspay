@@ -22,13 +22,11 @@ class ErcasPay {
         level: 'debug', // Default log level
         format: winston.format.combine(
           winston.format.timestamp(),
-          winston.format.printf(
-            ({ timestamp, level, message, ...metadata }) => {
-              return `[Ercaspay] ${timestamp} [${level}]: ${message} ${
-                Object.keys(metadata).length ? JSON.stringify(metadata) : ''
-              }`;
-            }
-          )
+          winston.format.printf(({ timestamp, level, message, ...metadata }) => {
+            return `[Ercaspay] ${timestamp} [${level}]: ${message} ${
+              Object.keys(metadata).length ? JSON.stringify(metadata) : ''
+            }`;
+          }),
         ),
         transports: [
           new winston.transports.File({ filename: `ercaspay-client.log` }), // Log to a file
@@ -87,10 +85,7 @@ class ErcasPay {
     }
 
     try {
-      const response = await this.client[method.toLowerCase()](
-        relativeUrl,
-        data
-      );
+      const response = await this.client[method.toLowerCase()](relativeUrl, data);
       this.logger.info('API request successful');
       return response.data;
     } catch (error) {
@@ -101,14 +96,13 @@ class ErcasPay {
         });
         throw new Error(
           error.response.data.errorMessage ||
-            `An error occurred while calling the Ercaspay API on path: ${relativeUrl}`
+            `An error occurred while calling the Ercaspay API on path: ${relativeUrl}`,
         );
       }
 
       this.logger.error('API request error', error.message);
       throw new Error(
-        error.message ||
-          `An unexpected error occurred while making the API request on path: ${relativeUrl}`
+        error.message || `An unexpected error occurred while making the API request on path: ${relativeUrl}`,
       );
     }
   }
@@ -121,11 +115,7 @@ class ErcasPay {
   async initiateTransaction(data) {
     this.logger.info('Initiating payment transaction');
 
-    const response = await this.#makeRequest(
-      '/api/v1/payment/initiate',
-      'POST',
-      data
-    );
+    const response = await this.#makeRequest('/api/v1/payment/initiate', 'POST', data);
     this.logger.info('Payment transaction initiated successfully', {
       response,
     });
@@ -140,10 +130,7 @@ class ErcasPay {
    */
   async verifyTransaction(transactionRef) {
     this.logger.info('Verifying transaction', { transactionRef });
-    const response = await this.#makeRequest(
-      `/api/v1/payment/transaction/verify/${transactionRef}`,
-      'GET'
-    );
+    const response = await this.#makeRequest(`/api/v1/payment/transaction/verify/${transactionRef}`, 'GET');
     this.logger.info('Transaction verification completed', { response });
     return response;
   }
@@ -157,7 +144,7 @@ class ErcasPay {
     this.logger.info('Initiating bank transfer', { transactionRef });
     const response = await this.#makeRequest(
       `/api/v1/payment/bank-transfer/request-bank-account/${transactionRef}`,
-      'GET'
+      'GET',
     );
     this.logger.info('Bank transfer initiated successfully', { response });
     return response;
@@ -173,11 +160,9 @@ class ErcasPay {
     this.logger.info('Initiating USSD transaction', {
       transactionRef,
     });
-    const response = await this.#makeRequest(
-      `/api/v1/payment/ussd/request-ussd-code/${transactionRef}`,
-      'POST',
-      { bank_name: bankName }
-    );
+    const response = await this.#makeRequest(`/api/v1/payment/ussd/request-ussd-code/${transactionRef}`, 'POST', {
+      bank_name: bankName,
+    });
     this.logger.info('USSD transaction initiated successfully', { response });
     return response;
   }
@@ -188,10 +173,7 @@ class ErcasPay {
    */
   async getBankListForUssd() {
     this.logger.info('Fetching USSD supported banks list');
-    const response = await this.#makeRequest(
-      '/api/v1/payment/ussd/supported-banks',
-      'GET'
-    );
+    const response = await this.#makeRequest('/api/v1/payment/ussd/supported-banks', 'GET');
     this.logger.debug('Retrieved USSD supported banks', {
       banks: response.responseBody,
     });
@@ -215,10 +197,7 @@ class ErcasPay {
    */
   async fetchTransactionDetails(transactionRef) {
     this.logger.info('Fetching transaction details', { transactionRef });
-    const response = await this.#makeRequest(
-      `/api/v1/payment/details/${transactionRef}`,
-      'GET'
-    );
+    const response = await this.#makeRequest(`/api/v1/payment/details/${transactionRef}`, 'GET');
     this.logger.info('Transaction details retrieved', { response });
     return response;
   }
@@ -230,19 +209,14 @@ class ErcasPay {
    * @param {string} paymentMethod Payment method
    * @returns {Promise<Object>} Transaction status
    */
-  async fetchTransactionStatus(
-    transactionRef,
-    paymentReference,
-    paymentMethod
-  ) {
+  async fetchTransactionStatus(transactionRef, paymentReference, paymentMethod) {
     this.logger.info('Fetching transaction status', {
       transactionRef,
     });
-    const response = await this.#makeRequest(
-      `/api/v1/payment/status/${transactionRef}`,
-      'POST',
-      { payment_method: paymentMethod, reference: paymentReference }
-    );
+    const response = await this.#makeRequest(`/api/v1/payment/status/${transactionRef}`, 'POST', {
+      payment_method: paymentMethod,
+      reference: paymentReference,
+    });
     this.logger.info('Transaction status retrieved', { response });
     return response;
   }
@@ -254,10 +228,7 @@ class ErcasPay {
    */
   async cancelTransaction(transactionRef) {
     this.logger.info('Cancelling transaction', { transactionRef });
-    const response = await this.#makeRequest(
-      `/api/v1/payment/cancel/${transactionRef}`,
-      'GET'
-    );
+    const response = await this.#makeRequest(`/api/v1/payment/cancel/${transactionRef}`, 'GET');
     this.logger.info('Transaction cancelled successfully', { response });
     return response;
   }
@@ -297,15 +268,11 @@ class ErcasPay {
       pan: cardNumber,
     });
 
-    const response = await this.#makeRequest(
-      '/api/v1/payment/cards/initialize',
-      'POST',
-      {
-        transactionReference: transactionRef,
-        payload: encryptedCard,
-        deviceDetails,
-      }
-    );
+    const response = await this.#makeRequest('/api/v1/payment/cards/initialize', 'POST', {
+      transactionReference: transactionRef,
+      payload: encryptedCard,
+      deviceDetails,
+    });
     this.logger.info('Card transaction initiated successfully', { response });
     return response;
   }
@@ -321,11 +288,10 @@ class ErcasPay {
     this.logger.info('Submitting card OTP', {
       transactionRef,
     });
-    const response = await this.#makeRequest(
-      `/api/v1/payment/cards/otp/submit/${transactionRef}`,
-      'POST',
-      { otp, gatewayReference: paymentReference }
-    );
+    const response = await this.#makeRequest(`/api/v1/payment/cards/otp/submit/${transactionRef}`, 'POST', {
+      otp,
+      gatewayReference: paymentReference,
+    });
     this.logger.info('OTP submission completed', { response });
     return response;
   }
@@ -340,11 +306,9 @@ class ErcasPay {
     this.logger.info('Requesting OTP resend', {
       transactionRef,
     });
-    const response = await this.#makeRequest(
-      `/api/v1/payment/cards/otp/resend/${transactionRef}`,
-      'POST',
-      { gatewayReference: paymentReference }
-    );
+    const response = await this.#makeRequest(`/api/v1/payment/cards/otp/resend/${transactionRef}`, 'POST', {
+      gatewayReference: paymentReference,
+    });
     this.logger.info('OTP resend completed', { response });
     return response;
   }
@@ -356,10 +320,7 @@ class ErcasPay {
    */
   async getCardDetails(transactionRef) {
     this.logger.info('Fetching saved card details', { transactionRef });
-    const response = await this.#makeRequest(
-      `/api/v1/payment/cards/details/${transactionRef}`,
-      'GET'
-    );
+    const response = await this.#makeRequest(`/api/v1/payment/cards/details/${transactionRef}`, 'GET');
     this.logger.info('Card details retrieved successfully', { response });
     return response;
   }
@@ -371,11 +332,9 @@ class ErcasPay {
    */
   async verifyCardTransaction(transactionRef) {
     this.logger.info('Verifying card transaction', { transactionRef });
-    const response = await this.#makeRequest(
-      '/api/v1/payment/cards/transaction/verify',
-      'POST',
-      { reference: transactionRef }
-    );
+    const response = await this.#makeRequest('/api/v1/payment/cards/transaction/verify', 'POST', {
+      reference: transactionRef,
+    });
     this.logger.info('Transaction verification completed', { response });
     return response;
   }

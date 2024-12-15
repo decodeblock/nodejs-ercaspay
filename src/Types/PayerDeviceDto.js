@@ -1,7 +1,6 @@
-const Device = require("./Device");
+const Device = require('./Device');
 
 class PayerDeviceDto {
-
   constructor(device) {
     this.device = device;
   }

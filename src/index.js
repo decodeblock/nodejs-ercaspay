@@ -1,3 +1,3 @@
-const Ercaspay = require("./Ercaspay");
+const Ercaspay = require('./Ercaspay');
 
 module.exports = Ercaspay;

@@ -24,7 +24,7 @@ class BrowserDetails {
     const headers = request.headers || {};
     const userAgent = headers['user-agent'] || '';
     const acceptLanguage = headers['accept-language'] || 'en-US';
-    
+
     return new BrowserDetails({
       challengeWindowSize: 'FULL_SCREEN', // Default value, could be dynamically set
       acceptHeaders: headers.accept || 'application/json',
