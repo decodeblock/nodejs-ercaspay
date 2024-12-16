@@ -87,7 +87,7 @@ class ErcasPay {
         });
         const err = new Error(
           error.response?.data?.errorMessage ||
-            `An error occurred while calling the Ercaspay API on path: ${relativeUrl}`
+            `An error occurred while calling the Ercaspay API on path: ${relativeUrl}`,
         );
         err.statusCode = error.response?.status;
         err.responseData = error.response?.data;
