@@ -61,7 +61,7 @@ Send payment details to initiate a transaction.
 
     console.log('Transaction Response:', response);
   } catch (error) {
-    console.error('Error initiating transaction:', error.response?.data || error.message);
+    console.error('Error initiating transaction:', error.responseData || error.message);
   }
 
 ```
@@ -87,7 +87,7 @@ try {
   });
 } catch (error) {
   console.error('Error initiating transaction:', error);
-  res.status(500).json({
+  res.status(error.statusCode).json({
     success: false,
     message: 'Failed to initiate transaction',
     error: error.message,
@@ -111,7 +111,7 @@ Example of handling errors:
 try {
   const response = await ercaspay.initiateTransaction(data);
 } catch (error) {
-  console.error('Error:', error.response?.data || error.message);
+  console.error('Error:', error.responseData || error.message);
 }
 ```
 
