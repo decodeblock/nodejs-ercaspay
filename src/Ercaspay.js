@@ -4,11 +4,11 @@ const CardEncryptor = require('./Utils/CardEncryptor');
 const PayerDeviceDto = require('./Types/PayerDeviceDto');
 
 /**
-* Author: Gabriel Ibenye
-* GitHub: https://github.com/gabbyTI
-* Email: gabrielibenye@gmail.com
-* Created: December 11, 2024
-*/
+ * Author: Gabriel Ibenye
+ * GitHub: https://github.com/gabbyTI
+ * Email: gabrielibenye@gmail.com
+ * Created: December 11, 2024
+ */
 
 /**
  * ErcasPay payment gateway client class
