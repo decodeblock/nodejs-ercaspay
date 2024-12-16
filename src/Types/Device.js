@@ -1,5 +1,12 @@
 const BrowserDetails = require('./BrowserDetails');
 
+/**
+* Author: Gabriel Ibenye
+* GitHub: https://github.com/gabbyTI
+* Email: gabrielibenye@gmail.com
+* Created: December 11, 2024
+*/
+
 class Device {
   constructor({ browser, browserDetails, ipAddress }) {
     this.browser = browser;

@@ -4,16 +4,31 @@ const CardEncryptor = require('./Utils/CardEncryptor');
 const PayerDeviceDto = require('./Types/PayerDeviceDto');
 
 /**
+* Author: Gabriel Ibenye
+* GitHub: https://github.com/gabbyTI
+* Email: gabrielibenye@gmail.com
+* Created: December 11, 2024
+*/
+
+/**
  * ErcasPay payment gateway client class
+ *
+ * A client implementation for interacting with the ErcasPay payment gateway API.
+ * Provides methods for initiating and managing payment transactions including:
+ * - Card payments
+ * - Bank transfers
+ * - USSD transactions
+ * - Transaction verification
+ * - Transaction status checks
+ * - Transaction cancellation
+ *
+ * @class Ercaspay
+ * @param {Object} config Configuration object
+ * @param {string} config.baseURL Base URL for API requests
+ * @param {string} config.secretKey Secret key for authentication
+ * @param {Object} [config.logger=null] Custom logger instance
  */
 class ErcasPay {
-  /**
-   * Creates a new ErcasPay client instance
-   * @param {Object} config Configuration object
-   * @param {string} config.baseURL Base URL for API requests
-   * @param {string} config.secretKey Secret key for authentication
-   * @param {Object} [config.logger=null] Custom logger instance
-   */
   constructor({ baseURL, secretKey, logger = null }) {
     this.logger =
       logger ||

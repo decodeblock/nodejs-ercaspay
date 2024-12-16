@@ -1,6 +1,20 @@
 const fs = require('fs');
 const crypto = require('crypto');
 
+/**
+* Author: Gabriel Ibenye
+* GitHub: https://github.com/gabbyTI
+* Email: gabrielibenye@gmail.com
+* Created: December 11, 2024
+*/
+
+
+/**
+ * Class for encrypting card details using RSA public key encryption
+ * @class CardEncryptor
+ * @param {string} publicKeyPath - Path to the RSA public key file
+ * @throws {Error} If public key file is not found
+ */
 class CardEncryptor {
   constructor(publicKeyPath) {
     if (!fs.existsSync(publicKeyPath)) {
