@@ -22,7 +22,6 @@ class BrowserDetails {
   // Static factory method (can handle Express's req or Koa's ctx.request)
   static fromRequest(request) {
     const headers = request.headers || {};
-    const userAgent = headers['user-agent'] || '';
     const acceptLanguage = headers['accept-language'] || 'en-US';
 
     return new BrowserDetails({
@@ -33,7 +32,7 @@ class BrowserDetails {
       language: acceptLanguage,
       screenHeight: 473, // Can be dynamically calculated if necessary
       screenWidth: 1600, // Can be dynamically calculated if necessary
-      timeZone: new Date().getTimezoneOffset() / 60, // Default time zone, can be dynamically calculated
+      timeZone: 273, // Default time zone, can be dynamically calculated
     });
   }
 

@@ -12,10 +12,9 @@ class ErcasPay {
    * @param {Object} config Configuration object
    * @param {string} config.baseURL Base URL for API requests
    * @param {string} config.secretKey Secret key for authentication
-   * @param {boolean} [config.verifySsl=true] Whether to verify SSL certificates
    * @param {Object} [config.logger=null] Custom logger instance
    */
-  constructor({ baseURL, secretKey, verifySsl = true, logger = null }) {
+  constructor({ baseURL, secretKey, logger = null }) {
     this.logger =
       logger ||
       winston.createLogger({
@@ -35,7 +34,6 @@ class ErcasPay {
     this.baseURL = baseURL;
     this.secretKey = secretKey;
     this.client = null; // Client will be initialized later
-    this.verifySsl = verifySsl; // Store the flag for SSL verification
     this.#initializeClient();
   }
 
@@ -46,12 +44,7 @@ class ErcasPay {
   #initializeClient() {
     this.logger.debug('Initiallizing axios client', {
       baseURL: this.baseURL,
-      verifySsl: this.verifySsl,
     });
-    const httpsAgent = this.verifySsl
-      ? undefined // Use default SSL behavior
-      : new https.Agent({ rejectUnauthorized: false }); // Disable SSL verification
-
     this.client = axios.create({
       baseURL: this.baseURL,
       headers: {
@@ -59,7 +52,6 @@ class ErcasPay {
         Accept: 'application/json', // Set the Accept header to JSON
         'Content-Type': 'application/json', // Set the Content-Type header to JSON
       },
-      httpsAgent, // Attach the agent based on the verifySsl flag
     });
     this.logger.debug('Initiallized axios client successfully');
   }

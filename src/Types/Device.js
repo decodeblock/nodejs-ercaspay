@@ -9,11 +9,17 @@ class Device {
 
   // Static factory method (can handle Express's req or Koa's ctx.request)
   static fromRequest(request) {
-    const userAgent = request.headers['user-agent'] || 'Unknown';
-    const ipAddress = request.ip || request.connection.remoteAddress || '127.0.0.1';
+    var ip = request.ip || request.headers['x-forwarded-for'] || '127.0.0.1';
+    
+    if (ip.substr(0, 7) == "::ffff:") {
+      ip = ip.substr(7)
+    }
+
+    const browser = request.headers['user-agent'] || 'Unknown';
+    const ipAddress = ip;
     const browserDetails = BrowserDetails.fromRequest(request);
 
-    return new Device({ userAgent, browserDetails, ipAddress });
+    return new Device({ browser, browserDetails, ipAddress });
   }
 
   toArray() {
