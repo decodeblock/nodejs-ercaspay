@@ -95,9 +95,12 @@ class ErcasPay {
       }
 
       this.logger.error('API request error', error.message);
-      throw new Error(
+      const err = new Error(
         error.message || `An unexpected error occurred while making the API request on path: ${relativeUrl}`,
       );
+      err.statusCode = 500;
+      err.responseData = null;
+      throw err;
     }
   }
 
