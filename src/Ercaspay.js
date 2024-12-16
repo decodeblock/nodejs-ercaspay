@@ -85,12 +85,13 @@ class ErcasPay {
           data: error.response.data,
           status: error.response.status,
         });
-        throw new Error(
-          error.response.data.errorMessage ||
-            `An error occurred while calling the Ercaspay API on path: ${relativeUrl}`,
-          error.response.status,
-          error.response.data,
+        const err = new Error(
+          error.response?.data?.errorMessage ||
+            `An error occurred while calling the Ercaspay API on path: ${relativeUrl}`
         );
+        err.statusCode = error.response?.status;
+        err.responseData = error.response?.data;
+        throw err;
       }
 
       this.logger.error('API request error', error.message);
