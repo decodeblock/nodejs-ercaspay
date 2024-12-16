@@ -260,7 +260,7 @@ class ErcasPay {
     });
 
     const deviceDetails = PayerDeviceDto.fromRequest(request).toArray();
-    this.logger.debug("'Device details captured", deviceDetails)
+    this.logger.debug("'Device details captured", deviceDetails);
 
     const encryptor = new CardEncryptor(`${__dirname}/key/rsa_public_key.pub`);
     const encryptedCard = encryptor.encrypt({
