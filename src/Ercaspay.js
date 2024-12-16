@@ -259,9 +259,10 @@ class ErcasPay {
       transactionRef,
     });
 
-    const deviceDetails = PayerDeviceDto.fromRequest(request);
+    const deviceDetails = PayerDeviceDto.fromRequest(request).toArray();
+    this.logger.debug("'Device details captured", deviceDetails)
 
-    const encryptor = new CardEncryptor(`${__dirname}/key/public_key.pem`);
+    const encryptor = new CardEncryptor(`${__dirname}/key/rsa_public_key.pub`);
     const encryptedCard = encryptor.encrypt({
       cvv: cardCvv,
       pin,
