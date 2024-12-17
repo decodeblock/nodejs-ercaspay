@@ -1,5 +1,11 @@
 # Node.js Ercaspay Integration
 
+[![License](https://img.shields.io/github/license/decodeblock/nodejs-ercaspay.svg?style=flat-square)](https://opensource.org/licenses/MIT)
+[![Latest Version](https://img.shields.io/npm/v/@decodeblock/nodejs-ercaspay.svg?style=flat-square)](https://www.npmjs.com/package/@decodeblock/nodejs-ercaspay)
+[![Tests Status](https://img.shields.io/github/actions/workflow/status/decodeblock/nodejs-ercaspay/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/decodeblock/nodejs-ercaspay/actions?query=workflow%3Arun-tests+branch%3Amain)
+[![Total Downloads](https://img.shields.io/npm/dt/@decodeblock/nodejs-ercaspay.svg?style=flat-square)](https://www.npmjs.com/package/@decodeblock/nodejs-ercaspay)
+[![Contributors](https://img.shields.io/github/contributors/decodeblock/nodejs-ercaspay.svg?style=flat-square)](https://github.com/decodeblock/nodejs-ercaspay/graphs/contributors)
+
 A Node.js package for seamless integration with the Ercaspay API, providing utilities for encrypting card details, initiating payment transactions, and more.
 
 ## Features
