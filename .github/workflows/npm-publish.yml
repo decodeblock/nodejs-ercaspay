@@ -32,6 +32,6 @@ jobs:
           VERSION=${{ github.event.release.name }}
           jq --arg version "$VERSION" '.version = $version' package.json > temp.json && mv temp.json package.json
       - run: npm ci
-      - run: npm publish
+      - run: npm publish --access=public
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
